@@ -1,0 +1,71 @@
+[gd_scene load_steps=9 format=4 uid="uid://bu7d4cogyxc07"]
+
+[ext_resource type="Texture2D" uid="uid://ci8xv6ph6mpjn" path="res://assets/tips/Alice/Alice2.png" id="1_lgtow"]
+[ext_resource type="Script" path="res://scripts/PlayerMovement.cs" id="1_w3h02"]
+[ext_resource type="Texture2D" uid="uid://lushypal162v" path="res://assets/tips/Alice/Alice3.png" id="2_0lfog"]
+[ext_resource type="Texture2D" uid="uid://b0q7bk8783ufl" path="res://assets/tips/map/tilemap.png" id="4_m8cql"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_32k7f"]
+texture = ExtResource("4_m8cql")
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+1:0/0 = 0
+1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+2:0/0 = 0
+2:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+0:1/0 = 0
+0:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+1:1/0 = 0
+1:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+2:1/0 = 0
+2:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+
+[sub_resource type="TileSet" id="TileSet_rai0d"]
+physics_layer_0/collision_layer = 1
+sources/0 = SubResource("TileSetAtlasSource_32k7f")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2ma4l"]
+size = Vector2(20, 21)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ny2jy"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_lgtow")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_0lfog")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[node name="main" type="Node2D"]
+
+[node name="Node2D" type="Node2D" parent="."]
+
+[node name="TileMapLayer" type="TileMapLayer" parent="Node2D"]
+scale = Vector2(3, 3)
+tile_map_data = PackedByteArray("AAAAAAsAAAAAAAAAAAABAAsAAAAAAAAAAAACAAsAAAAAAAAAAAADAAsAAAAAAAAAAAAEAAsAAAAAAAAAAAAFAAsAAAAAAAAAAAAGAAsAAAAAAAAAAAAHAAsAAAAAAAAAAAAIAAsAAAAAAAAAAAAJAAsAAAAAAAAAAAAKAAsAAAAAAAAAAAALAAsAAAAAAAAAAAAMAAsAAAAAAAAAAAANAAsAAAAAAAAAAAAOAAsAAAAAAAAAAAAPAAsAAAAAAAAAAAAAAAoAAAAAAAAAAAACAAoAAAAAAAAAAAAGAAoAAAAAAAAAAAAHAAoAAAAAAAAAAAAHAAkAAAAAAAAAAAAIAAoAAAAAAAAAAAAIAAkAAAAAAAAAAAAIAAgAAAAAAAAAAAAJAAgAAAAAAAAAAAAJAAkAAAAAAAAAAAAJAAoAAAAAAAAAAAAKAAkAAAAAAAAAAAAKAAoAAAAAAAAAAAALAAoAAAAAAAAAAAAPAAoAAAAAAAAAAAAAAAkAAAABAAAAAAAAAAgAAAACAAAAAAAAAAcAAAACAAAAAAAAAAYAAAACAAAAAAAAAAUAAAACAAAAAAAAAAQAAAACAAAAAAAAAAMAAAACAAAAAAAAAAIAAAACAAAAAAAAAAEAAAACAAAAAAAPAAEAAAACAAAAAAAPAAIAAAACAAAAAAAPAAMAAAACAAAAAAAPAAQAAAACAAAAAAAPAAUAAAACAAAAAAAPAAYAAAACAAAAAAAPAAcAAAACAAAAAAAPAAgAAAACAAAAAAAPAAkAAAABAAAAAAAPAAAAAAACAAEAAAAAAAAAAAACAAEAAAABAAAAAAAAAAAAAAACAAAAAAAAAAAAAAADAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAFAAAAAAAAAAAAAAAGAAAAAAAAAAAAAAAHAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAJAAAAAAAAAAAAAAAKAAAAAAAAAAAAAAALAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAANAAAAAAAAAAAAAAAOAAAAAAAAAAAAAAA=")
+tile_set = SubResource("TileSet_rai0d")
+
+[node name="Alice" type="Node2D" parent="."]
+position = Vector2(69, 477)
+scale = Vector2(2.28, 2.4)
+metadata/_edit_group_ = true
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="Alice"]
+script = ExtResource("1_w3h02")
+Gravity = 900.0
+JumpForce = 300
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Alice/CharacterBody2D"]
+position = Vector2(0, -0.5)
+scale = Vector2(0.7, 1)
+shape = SubResource("RectangleShape2D_2ma4l")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Alice/CharacterBody2D"]
+sprite_frames = SubResource("SpriteFrames_ny2jy")
+animation = &"walk"
+frame_progress = 0.266035
