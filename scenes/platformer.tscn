@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=4 uid="uid://bu7d4cogyxc07"]
+[gd_scene load_steps=10 format=4 uid="uid://bu7d4cogyxc07"]
 
 [ext_resource type="Texture2D" uid="uid://ci8xv6ph6mpjn" path="res://assets/tips/Alice/Alice2.png" id="1_lgtow"]
 [ext_resource type="Script" path="res://scripts/PlayerMovement.cs" id="1_w3h02"]
 [ext_resource type="Texture2D" uid="uid://lushypal162v" path="res://assets/tips/Alice/Alice3.png" id="2_0lfog"]
-[ext_resource type="Texture2D" uid="uid://b0q7bk8783ufl" path="res://assets/tips/map/tilemap.png" id="4_m8cql"]
+[ext_resource type="Texture2D" uid="uid://b0rqo40xcnipw" path="res://assets/tips/Alice/Alice1.png" id="3_3s5qq"]
+[ext_resource type="Texture2D" uid="uid://b0q7bk8783ufl" path="res://assets/tilemap/tilemap.png" id="4_m8cql"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_32k7f"]
 texture = ExtResource("4_m8cql")
@@ -31,6 +32,14 @@ size = Vector2(20, 21)
 animations = [{
 "frames": [{
 "duration": 1.0,
+"texture": ExtResource("3_3s5qq")
+}],
+"loop": true,
+"name": &"stop",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": ExtResource("1_lgtow")
 }, {
 "duration": 1.0,
@@ -46,18 +55,18 @@ animations = [{
 [node name="Node2D" type="Node2D" parent="."]
 
 [node name="TileMapLayer" type="TileMapLayer" parent="Node2D"]
-scale = Vector2(3, 3)
+scale = Vector2(4, 4)
 tile_map_data = PackedByteArray("AAAAAAsAAAAAAAAAAAABAAsAAAAAAAAAAAACAAsAAAAAAAAAAAADAAsAAAAAAAAAAAAEAAsAAAAAAAAAAAAFAAsAAAAAAAAAAAAGAAsAAAAAAAAAAAAHAAsAAAAAAAAAAAAIAAsAAAAAAAAAAAAJAAsAAAAAAAAAAAAKAAsAAAAAAAAAAAALAAsAAAAAAAAAAAAMAAsAAAAAAAAAAAANAAsAAAAAAAAAAAAOAAsAAAAAAAAAAAAPAAsAAAAAAAAAAAAAAAoAAAAAAAAAAAACAAoAAAAAAAAAAAAGAAoAAAAAAAAAAAAHAAoAAAAAAAAAAAAHAAkAAAAAAAAAAAAIAAoAAAAAAAAAAAAIAAkAAAAAAAAAAAAIAAgAAAAAAAAAAAAJAAgAAAAAAAAAAAAJAAkAAAAAAAAAAAAJAAoAAAAAAAAAAAAKAAkAAAAAAAAAAAAKAAoAAAAAAAAAAAALAAoAAAAAAAAAAAAPAAoAAAAAAAAAAAAAAAkAAAABAAAAAAAAAAgAAAACAAAAAAAAAAcAAAACAAAAAAAAAAYAAAACAAAAAAAAAAUAAAACAAAAAAAAAAQAAAACAAAAAAAAAAMAAAACAAAAAAAAAAIAAAACAAAAAAAAAAEAAAACAAAAAAAPAAEAAAACAAAAAAAPAAIAAAACAAAAAAAPAAMAAAACAAAAAAAPAAQAAAACAAAAAAAPAAUAAAACAAAAAAAPAAYAAAACAAAAAAAPAAcAAAACAAAAAAAPAAgAAAACAAAAAAAPAAkAAAABAAAAAAAPAAAAAAACAAEAAAAAAAAAAAACAAEAAAABAAAAAAAAAAAAAAACAAAAAAAAAAAAAAADAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAFAAAAAAAAAAAAAAAGAAAAAAAAAAAAAAAHAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAJAAAAAAAAAAAAAAAKAAAAAAAAAAAAAAALAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAANAAAAAAAAAAAAAAAOAAAAAAAAAAAAAAA=")
 tile_set = SubResource("TileSet_rai0d")
 
 [node name="Alice" type="Node2D" parent="."]
-position = Vector2(69, 477)
-scale = Vector2(2.28, 2.4)
+position = Vector2(217, 527)
+scale = Vector2(3.04, 3.2)
 metadata/_edit_group_ = true
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="Alice"]
 script = ExtResource("1_w3h02")
-Gravity = 900.0
+Gravity = 20.0
 JumpForce = 300
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Alice/CharacterBody2D"]
@@ -67,5 +76,4 @@ shape = SubResource("RectangleShape2D_2ma4l")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Alice/CharacterBody2D"]
 sprite_frames = SubResource("SpriteFrames_ny2jy")
-animation = &"walk"
-frame_progress = 0.266035
+animation = &"stop"
