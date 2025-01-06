@@ -1,10 +1,17 @@
-[gd_scene load_steps=10 format=4 uid="uid://bu7d4cogyxc07"]
+[gd_scene load_steps=18 format=4 uid="uid://bu7d4cogyxc07"]
 
 [ext_resource type="Texture2D" uid="uid://ci8xv6ph6mpjn" path="res://assets/tips/Alice/Alice2.png" id="1_lgtow"]
-[ext_resource type="Script" path="res://scripts/PlayerMovement.cs" id="1_w3h02"]
 [ext_resource type="Texture2D" uid="uid://lushypal162v" path="res://assets/tips/Alice/Alice3.png" id="2_0lfog"]
 [ext_resource type="Texture2D" uid="uid://b0rqo40xcnipw" path="res://assets/tips/Alice/Alice1.png" id="3_3s5qq"]
 [ext_resource type="Texture2D" uid="uid://b0q7bk8783ufl" path="res://assets/tilemap/tilemap.png" id="4_m8cql"]
+[ext_resource type="Texture2D" uid="uid://deoyhx1baw0fv" path="res://assets/tips/Lily/3.png" id="6_pcusl"]
+[ext_resource type="Texture2D" uid="uid://dnphi15fi3dbx" path="res://assets/tips/Lily/1.png" id="7_1piry"]
+[ext_resource type="Script" path="res://scripts/AliceMovement.cs" id="7_c12wc"]
+[ext_resource type="Texture2D" uid="uid://bc4vsfydvq0a0" path="res://assets/tips/Lily/2.png" id="8_3cjle"]
+[ext_resource type="Texture2D" uid="uid://d0ybqthrgaol5" path="res://assets/tips/Alice/Alice4.png" id="8_ndsrr"]
+[ext_resource type="Texture2D" uid="uid://cgsal1k4ew7rg" path="res://assets/tips/Lily/4.png" id="9_2nvfb"]
+[ext_resource type="Texture2D" uid="uid://b17vr3exelxnt" path="res://assets/tips/Lily/5.png" id="10_jvwax"]
+[ext_resource type="Texture2D" uid="uid://cs8f2vn5inowg" path="res://assets/tips/Alice/Alice5.png" id="10_mh72a"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_32k7f"]
 texture = ExtResource("4_m8cql")
@@ -26,16 +33,80 @@ physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_32k7f")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2ma4l"]
-size = Vector2(20, 21)
+size = Vector2(20, 20.1409)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_b46iv"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_pcusl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_1piry")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_3cjle")
+}],
+"loop": true,
+"name": &"jump",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("9_2nvfb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_jvwax")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_3cjle")
+}],
+"loop": true,
+"name": &"vibe",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_1piry")
+}],
+"loop": true,
+"name": &"wait",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_1piry")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_3cjle")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ny2jy"]
 animations = [{
 "frames": [{
 "duration": 1.0,
+"texture": ExtResource("8_ndsrr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_3s5qq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_mh72a")
+}],
+"loop": true,
+"name": &"jump",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": ExtResource("3_3s5qq")
 }],
 "loop": true,
-"name": &"stop",
+"name": &"wait",
 "speed": 5.0
 }, {
 "frames": [{
@@ -55,25 +126,41 @@ animations = [{
 [node name="Node2D" type="Node2D" parent="."]
 
 [node name="TileMapLayer" type="TileMapLayer" parent="Node2D"]
-scale = Vector2(4, 4)
-tile_map_data = PackedByteArray("AAAAAAsAAAAAAAAAAAABAAsAAAAAAAAAAAACAAsAAAAAAAAAAAADAAsAAAAAAAAAAAAEAAsAAAAAAAAAAAAFAAsAAAAAAAAAAAAGAAsAAAAAAAAAAAAHAAsAAAAAAAAAAAAIAAsAAAAAAAAAAAAJAAsAAAAAAAAAAAAKAAsAAAAAAAAAAAALAAsAAAAAAAAAAAAMAAsAAAAAAAAAAAANAAsAAAAAAAAAAAAOAAsAAAAAAAAAAAAPAAsAAAAAAAAAAAAAAAoAAAAAAAAAAAACAAoAAAAAAAAAAAAGAAoAAAAAAAAAAAAHAAoAAAAAAAAAAAAHAAkAAAAAAAAAAAAIAAoAAAAAAAAAAAAIAAkAAAAAAAAAAAAIAAgAAAAAAAAAAAAJAAgAAAAAAAAAAAAJAAkAAAAAAAAAAAAJAAoAAAAAAAAAAAAKAAkAAAAAAAAAAAAKAAoAAAAAAAAAAAALAAoAAAAAAAAAAAAPAAoAAAAAAAAAAAAAAAkAAAABAAAAAAAAAAgAAAACAAAAAAAAAAcAAAACAAAAAAAAAAYAAAACAAAAAAAAAAUAAAACAAAAAAAAAAQAAAACAAAAAAAAAAMAAAACAAAAAAAAAAIAAAACAAAAAAAAAAEAAAACAAAAAAAPAAEAAAACAAAAAAAPAAIAAAACAAAAAAAPAAMAAAACAAAAAAAPAAQAAAACAAAAAAAPAAUAAAACAAAAAAAPAAYAAAACAAAAAAAPAAcAAAACAAAAAAAPAAgAAAACAAAAAAAPAAkAAAABAAAAAAAPAAAAAAACAAEAAAAAAAAAAAACAAEAAAABAAAAAAAAAAAAAAACAAAAAAAAAAAAAAADAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAFAAAAAAAAAAAAAAAGAAAAAAAAAAAAAAAHAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAJAAAAAAAAAAAAAAAKAAAAAAAAAAAAAAALAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAANAAAAAAAAAAAAAAAOAAAAAAAAAAAAAAA=")
+tile_map_data = PackedByteArray("AAAAAAoAAAAAAAAAAAACAAoAAAAAAAAAAAAGAAoAAAAAAAAAAAAHAAoAAAAAAAAAAAAHAAkAAAAAAAAAAAAIAAoAAAAAAAAAAAAIAAkAAAAAAAAAAAAIAAgAAAAAAAAAAAAJAAgAAAAAAAAAAAAJAAkAAAAAAAAAAAAJAAoAAAAAAAAAAAAKAAkAAAAAAAAAAAAKAAoAAAAAAAAAAAALAAoAAAAAAAAAAAAPAAoAAAAAAAAAAAAAAAkAAAABAAAAAAAAAAgAAAACAAAAAAAAAAcAAAACAAAAAAAAAAYAAAACAAAAAAAAAAUAAAACAAAAAAAAAAQAAAACAAAAAAAAAAMAAAACAAAAAAAAAAIAAAACAAAAAAAAAAEAAAACAAAAAAAPAAEAAAACAAAAAAAPAAIAAAACAAAAAAAPAAMAAAACAAAAAAAPAAQAAAACAAAAAAAPAAUAAAACAAAAAAAPAAYAAAACAAAAAAAPAAcAAAACAAAAAAAPAAgAAAACAAAAAAAPAAkAAAABAAAAAAAPAAAAAAACAAEAAAAAAAAAAAACAAEAAAABAAAAAAAAAAAAAAACAAAAAAAAAAAAAAADAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAFAAAAAAAAAAAAAAAGAAAAAAAAAAAAAAAHAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAJAAAAAAAAAAAAAAAKAAAAAAAAAAAAAAALAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAANAAAAAAAAAAAAAAAOAAAAAAAAAAAAAAAMAAcAAAAAAAAAAAANAAcAAAAAAAAAAAAOAAYAAAAAAAAAAAAMAAUAAAAAAAAAAAAKAAUAAAAAAAAAAAAIAAYAAAAAAAAAAAAJAAYAAAAAAAAAAAAGAAUAAAAAAAAAAAAHAAYAAAAAAAAAAAAKAAgAAAAAAAAAAAALAAkAAAAAAAAAAAAMAAoAAAAAAAAAAAAAAAsAAAAAAAEAAAABAAsAAAABAAEAAAACAAsAAAAAAAEAAAADAAsAAAABAAEAAAAEAAsAAAAAAAEAAAAFAAsAAAABAAEAAAAGAAsAAAAAAAEAAAAHAAsAAAABAAEAAAAIAAsAAAAAAAEAAAAJAAsAAAABAAEAAAAKAAsAAAAAAAEAAAALAAsAAAABAAEAAAAMAAsAAAAAAAEAAAANAAsAAAABAAEAAAAOAAsAAAAAAAEAAAAPAAsAAAABAAEAAAA=")
 tile_set = SubResource("TileSet_rai0d")
 
+[node name="Lily" type="Node2D" parent="."]
+position = Vector2(37, 142)
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="Lily"]
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Lily/CharacterBody2D"]
+scale = Vector2(0.55, 0.6)
+shape = SubResource("RectangleShape2D_2ma4l")
+metadata/_edit_lock_ = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Lily/CharacterBody2D"]
+position = Vector2(0, -5.5)
+sprite_frames = SubResource("SpriteFrames_b46iv")
+animation = &"wait"
+metadata/_edit_lock_ = true
+
 [node name="Alice" type="Node2D" parent="."]
-position = Vector2(217, 527)
-scale = Vector2(3.04, 3.2)
-metadata/_edit_group_ = true
+position = Vector2(54, 165)
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="Alice"]
-script = ExtResource("1_w3h02")
-Gravity = 20.0
-JumpForce = 300
+script = ExtResource("7_c12wc")
+metadata/_edit_lock_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Alice/CharacterBody2D"]
-position = Vector2(0, -0.5)
-scale = Vector2(0.7, 1)
+position = Vector2(0, 3)
+scale = Vector2(0.55, 0.79)
 shape = SubResource("RectangleShape2D_2ma4l")
+metadata/_edit_lock_ = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Alice/CharacterBody2D"]
+position = Vector2(0, 0.5)
 sprite_frames = SubResource("SpriteFrames_ny2jy")
-animation = &"stop"
+animation = &"wait"
+metadata/_edit_lock_ = true
