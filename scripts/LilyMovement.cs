@@ -13,6 +13,7 @@ public partial class LilyMovement : CharacterBody2D
     private int LilyWalkSpeed = 50; // LilyHorizontalMove()
     private int LilyJumpForce = 112; // LilyJump()
     private int LilyBounceForce = 300;
+    private int LilyTerminalVelocity = 240;
     private float LilyAnimationSpeed = 1.0f; // LilyAnimationReady()
     private bool LilyControlled = false;
 
@@ -24,6 +25,9 @@ public partial class LilyMovement : CharacterBody2D
     {
         _animatedLily = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
         _alice = GetNode<CharacterBody2D>("../../Alice/CharacterBody2D");
+
+        PlatformOnLeave = PlatformOnLeaveEnum.DoNothing;
+        SafeMargin = 0.05f;
     }
     public override void _PhysicsProcess(double delta) // as main
     {
@@ -31,37 +35,39 @@ public partial class LilyMovement : CharacterBody2D
             LilyControlled = !LilyControlled;
 
         LilyAction = (Velocity, "wait");
-        LilyAction = LilyHorizontalMove(LilyAction.velocity, LilyWalkSpeed, IsOnFloor());
+        LilyAction = LilyHorizontalMove(LilyAction, LilyWalkSpeed, IsOnFloor());
         LilyAction = LilyJump(LilyAction, LilyJumpForce, IsOnFloor()); //Jump animation depedences on whether player is grounded
         LilyAction = LilyInteractionMovement(LilyAction, LilyGetFloorType());
+        LilyAction = LilyApplyGravity(LilyAction, LilyGravity);
+        LilyAction = LilyApplyTerminalVelocity(LilyAction, LilyTerminalVelocity);
 
         LilyAnimationReady(_animatedLily, LilyAction, LilyAnimationSpeed, IsOnFloor());
 
-        LilyAction.velocity.Y += LilyGravity; //Apply Gravity
+
         Velocity = LilyAction.velocity;
 
         MoveAndSlide();
     }
 
-    private (Vector2 velocity, string animation) LilyHorizontalMove(Vector2 velocity, float WalkSpeed, bool IsOnFloor)
+    private (Vector2 velocity, string animation) LilyHorizontalMove((Vector2 velocity, string animation) LilyAction, float WalkSpeed, bool IsOnFloor)
     {
         // When inputting right and left, or no key, player waits
         if (LilyControlled)
         {
             if (Input.IsActionPressed("move_left") && Input.IsActionPressed("move_right"))
             {
-                velocity.X = 0;
-                return (velocity, "wait");
+                LilyAction.velocity.X = 0;
+                return (LilyAction.velocity, "wait");
             }
             else if (Input.IsActionPressed("move_left"))
             {
-                velocity.X = -WalkSpeed;
-                return (velocity, "walk");
+                LilyAction.velocity.X = -WalkSpeed;
+                return (LilyAction.velocity, "walk");
             }
             else if (Input.IsActionPressed("move_right"))
             {
-                velocity.X = WalkSpeed;
-                return (velocity, "walk");
+                LilyAction.velocity.X = WalkSpeed;
+                return (LilyAction.velocity, "walk");
             }
         }
 
@@ -69,13 +75,13 @@ public partial class LilyMovement : CharacterBody2D
         {
             case true:
                 {
-                    velocity.X = 0;
-                    return (velocity, "wait");
+                    LilyAction.velocity.X = 0;
+                    return (LilyAction.velocity, "wait");
                 }
             case false:
                 {
-                    velocity.X = 0;
-                    return (velocity, "jump");
+                    LilyAction.velocity.X = 0;
+                    return (LilyAction.velocity, "jump");
                 }
         }
     }
@@ -112,7 +118,22 @@ public partial class LilyMovement : CharacterBody2D
         if (FloorType == "Alice") // When Lily is higher than Alice
         {
             LilyAction.velocity.X += _alice.GetPositionDelta().X;
-            LilyAction.velocity.Y = _alice.GetPositionDelta().Y;
+            LilyAction.velocity.Y -= LilyGravity;
+        }
+        return LilyAction;
+    }
+
+    private (Vector2 velocity, string animation) LilyApplyGravity((Vector2 velocity, string animation) LilyAction, float LilyGravity)
+    {
+        LilyAction.velocity.Y += LilyGravity;
+        return LilyAction;
+    }
+
+    private (Vector2 velocity, string animation) LilyApplyTerminalVelocity((Vector2 velocity, string animation) LilyAction, int LilyTerminalVelocity)
+    {
+        if (LilyAction.velocity.Y > LilyTerminalVelocity)
+        {
+            LilyAction.velocity.Y = LilyTerminalVelocity;
         }
         return LilyAction;
     }
@@ -187,7 +208,6 @@ public partial class LilyMovement : CharacterBody2D
 
             if ((ContactedObj as CharacterBody2D).Position.Y > Position.Y)
             {
-                GD.Print((ContactedObj as CharacterBody2D).Position.Y, Position.Y);
                 return (ContactedObj as Node).GetParent().Name;
             }
 

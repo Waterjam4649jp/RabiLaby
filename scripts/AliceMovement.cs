@@ -9,10 +9,11 @@ using System.Runtime.InteropServices;
 
 public partial class AliceMovement : CharacterBody2D
 {
-    private float AliceGravity = 5.5f; // main()
-    private int AliceWalkSpeed = 50; // AliceHorizontalMove()
-    private int AliceJumpForce = 112; // AliceJump()
-    private int AliceBounceForce = 200;
+    [Export] private float AliceGravity = 7.5f; // main()
+    [Export] private int AliceWalkSpeed = 60; // AliceHorizontalMove()
+    [Export] private int AliceJumpForce = 135; // AliceJump()
+    [Export] private int AliceBounceForce = 10;
+    private int AliceTerminalVelocity = 120;
     private float AliceAnimationSpeed = 1.0f; // AliceAnimationReady()
     private bool AliceControlled = true;
 
@@ -29,37 +30,39 @@ public partial class AliceMovement : CharacterBody2D
             AliceControlled = !AliceControlled;
 
         AliceAction = (Velocity, "wait");
-        AliceAction = AliceHorizontalMove(AliceAction.velocity, AliceWalkSpeed, IsOnFloor());
+        AliceAction = AliceHorizontalMove(AliceAction, AliceWalkSpeed, IsOnFloor());
         AliceAction = AliceJump(AliceAction, AliceJumpForce, IsOnFloor()); //Jump animation depedences on whether player is grounded
+        AliceAction = AliceInteractionMovement(AliceAction, AliceGetFloorType());
+        AliceAction = AliceApplyGravity(AliceAction, AliceGravity);
+        AliceAction = AliceApplyTerminalVelocity(AliceAction, AliceTerminalVelocity);
 
         AliceAnimationReady(_animatedAlice, AliceAction, AliceAnimationSpeed, IsOnFloor());
 
-        AliceAction.velocity.Y += AliceGravity; //Apply Gravity
-        AliceAction = AliceInteractionMovement(AliceAction, AliceGetFloorType());
+
         Velocity = AliceAction.velocity;
 
         MoveAndSlide();
     }
 
-    private (Vector2 velocity, string animation) AliceHorizontalMove(Vector2 velocity, float WalkSpeed, bool IsOnFloor)
+    private (Vector2 velocity, string animation) AliceHorizontalMove((Vector2 velocity, string animation) AliceAction, float WalkSpeed, bool IsOnFloor)
     {
         // When inputting right and left, or no key, player waits
         if (AliceControlled)
         {
             if (Input.IsActionPressed("move_left") && Input.IsActionPressed("move_right"))
             {
-                velocity.X = 0;
-                return (velocity, "wait");
+                AliceAction.velocity.X = 0;
+                return (AliceAction.velocity, "wait");
             }
             else if (Input.IsActionPressed("move_left"))
             {
-                velocity.X = -WalkSpeed;
-                return (velocity, "walk");
+                AliceAction.velocity.X = -WalkSpeed;
+                return (AliceAction.velocity, "walk");
             }
             else if (Input.IsActionPressed("move_right"))
             {
-                velocity.X = WalkSpeed;
-                return (velocity, "walk");
+                AliceAction.velocity.X = WalkSpeed;
+                return (AliceAction.velocity, "walk");
             }
         }
 
@@ -67,13 +70,13 @@ public partial class AliceMovement : CharacterBody2D
         {
             case true:
                 {
-                    velocity.X = 0;
-                    return (velocity, "wait");
+                    AliceAction.velocity.X = 0;
+                    return (AliceAction.velocity, "wait");
                 }
             case false:
                 {
-                    velocity.X = 0;
-                    return (velocity, "jump");
+                    AliceAction.velocity.X = 0;
+                    return (AliceAction.velocity, "jump");
                 }
         }
     }
@@ -107,12 +110,28 @@ public partial class AliceMovement : CharacterBody2D
 
     private (Vector2 velocity, string animation) AliceInteractionMovement((Vector2 velocity, string animation) AliceAction, String FloorType)
     {
-        if (FloorType == "Lily") // When Alice is higher than Lily
+        if (FloorType == "Lily") // When Alice is higher than Alice
         {
             AliceAction.velocity.Y = -AliceBounceForce;
         }
         return AliceAction;
     }
+
+    private (Vector2 velocity, string animation) AliceApplyGravity((Vector2 velocity, string animation) AliceAction, float AliceGravity)
+    {
+        AliceAction.velocity.Y += AliceGravity;
+        return AliceAction;
+    }
+
+    private (Vector2 velocity, string animation) AliceApplyTerminalVelocity((Vector2 velocity, string animation) AliceAction, int AliceTerminalVelocity)
+    {
+        if (AliceAction.velocity.Y > AliceTerminalVelocity)
+        {
+            AliceAction.velocity.Y = AliceTerminalVelocity;
+        }
+        return AliceAction;
+    }
+
     private void AliceAnimationReady(AnimatedSprite2D _animatedAlice, (Vector2 velocity, string animation) AliceAction, float speed, bool IsOnFloor)
     {
         if (AliceAction.animation == "walk" && IsOnFloor)
