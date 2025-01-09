@@ -9,187 +9,101 @@ using System.Runtime.InteropServices;
 
 public partial class LilyMovement : CharacterBody2D
 {
-    private float LilyGravity = 5.5f; // main()
-    private int LilyWalkSpeed = 50; // LilyHorizontalMove()
-    private int LilyJumpForce = 112; // LilyJump()
-    private int LilyBounceForce = 300;
-    private int LilyTerminalVelocity = 240;
+    [Export] private float LilyGravity = 8.5f; // main()
+    [Export] private int LilyWalkSpeed = 60; // LilyHorizontalMove()
+    [Export] private int LilyJumpForce = 190; // LilyJump()
+    [Export] private int LilyBounceForce = 300;
+    [Export] private int LilyTerminalVelocity = 250;
     private float LilyAnimationSpeed = 1.0f; // LilyAnimationReady()
-    private bool LilyControlled = false;
+    private bool isLilyControlled = false;
+    private (string pre, string post) floorType = ("None", "None");
 
-    private (Vector2 velocity, string animation) LilyAction;
-    private AnimatedSprite2D _animatedLily;
-    private CharacterBody2D _alice;
+    private (Vector2 velocity, string animation) lilyAction;
+    private AnimatedSprite2D animatedLily;
+    private CharacterBody2D alice;
 
     public override void _Ready()
     {
-        _animatedLily = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
-        _alice = GetNode<CharacterBody2D>("../../Alice/CharacterBody2D");
+        animatedLily = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+        alice = GetNode<CharacterBody2D>("../../Alice/CharacterBody2D");
 
         PlatformOnLeave = PlatformOnLeaveEnum.DoNothing;
         SafeMargin = 0.05f;
     }
+
     public override void _PhysicsProcess(double delta) // as main
     {
         if (Input.IsActionJustPressed("change_character"))
-            LilyControlled = !LilyControlled;
+            isLilyControlled = !isLilyControlled;
 
-        LilyAction = (Velocity, "wait");
-        LilyAction = LilyHorizontalMove(LilyAction, LilyWalkSpeed, IsOnFloor());
-        LilyAction = LilyJump(LilyAction, LilyJumpForce, IsOnFloor()); //Jump animation depedences on whether player is grounded
-        LilyAction = LilyInteractionMovement(LilyAction, LilyGetFloorType());
-        LilyAction = LilyApplyGravity(LilyAction, LilyGravity);
-        LilyAction = LilyApplyTerminalVelocity(LilyAction, LilyTerminalVelocity);
+        lilyAction = (Velocity, "wait")
+            .LilyHorizontalMove(LilyWalkSpeed, IsOnFloor(), isLilyControlled)
+            .LilyJump(LilyJumpForce, IsOnFloor(), isLilyControlled)
+            .LilyInteractionMovement(floorType, alice, LilyGravity)
+            .LilyApplyGravity(LilyGravity)
+            .LilyApplyTerminalVelocity(LilyTerminalVelocity);
 
-        LilyAnimationReady(_animatedLily, LilyAction, LilyAnimationSpeed, IsOnFloor());
-
-
-        Velocity = LilyAction.velocity;
+        Velocity = lilyAction.velocity;
+        LilyAnimationReady(animatedLily, lilyAction, LilyAnimationSpeed, IsOnFloor());
 
         MoveAndSlide();
+
+        floorType = (floorType.post, LilyGetFloorType());
+        if (floorType.pre != floorType.post) { GD.Print(floorType); }
     }
 
-    private (Vector2 velocity, string animation) LilyHorizontalMove((Vector2 velocity, string animation) LilyAction, float WalkSpeed, bool IsOnFloor)
+    private void LilyAnimationReady(AnimatedSprite2D animatedLily, (Vector2 velocity, string animation) lilyAction, float speed, bool isOnFloor)
     {
-        // When inputting right and left, or no key, player waits
-        if (LilyControlled)
+        if (lilyAction.animation == "walk" && isOnFloor)
         {
-            if (Input.IsActionPressed("move_left") && Input.IsActionPressed("move_right"))
-            {
-                LilyAction.velocity.X = 0;
-                return (LilyAction.velocity, "wait");
-            }
-            else if (Input.IsActionPressed("move_left"))
-            {
-                LilyAction.velocity.X = -WalkSpeed;
-                return (LilyAction.velocity, "walk");
-            }
-            else if (Input.IsActionPressed("move_right"))
-            {
-                LilyAction.velocity.X = WalkSpeed;
-                return (LilyAction.velocity, "walk");
-            }
-        }
-
-        switch (IsOnFloor)
-        {
-            case true:
-                {
-                    LilyAction.velocity.X = 0;
-                    return (LilyAction.velocity, "wait");
-                }
-            case false:
-                {
-                    LilyAction.velocity.X = 0;
-                    return (LilyAction.velocity, "jump");
-                }
-        }
-    }
-
-    private (Vector2 velocity, string animation) LilyJump((Vector2 velocity, string animation) LilyAction, int LilyJumpForce, bool IsOnFloor)
-    {
-        if (!LilyControlled)
-        {
-            return LilyAction;
-        }
-
-        if (IsOnFloor)
-        {
-            if (Input.IsActionJustPressed("jump"))
-            {
-                LilyAction.velocity.Y = -LilyJumpForce;
-                LilyAction.animation = "jump";
-                return LilyAction;
-            }
-            else
-            {
-                return LilyAction;
-            }
-        }
-        else
-        {
-            LilyAction.animation = "jump"; //run jump animation when free falling
-            return LilyAction;
-        }
-    }
-
-    private (Vector2 velocity, string animation) LilyInteractionMovement((Vector2 velocity, string animation) LilyAction, String FloorType)
-    {
-        if (FloorType == "Alice") // When Lily is higher than Alice
-        {
-            LilyAction.velocity.X += _alice.GetPositionDelta().X;
-            LilyAction.velocity.Y -= LilyGravity;
-        }
-        return LilyAction;
-    }
-
-    private (Vector2 velocity, string animation) LilyApplyGravity((Vector2 velocity, string animation) LilyAction, float LilyGravity)
-    {
-        LilyAction.velocity.Y += LilyGravity;
-        return LilyAction;
-    }
-
-    private (Vector2 velocity, string animation) LilyApplyTerminalVelocity((Vector2 velocity, string animation) LilyAction, int LilyTerminalVelocity)
-    {
-        if (LilyAction.velocity.Y > LilyTerminalVelocity)
-        {
-            LilyAction.velocity.Y = LilyTerminalVelocity;
-        }
-        return LilyAction;
-    }
-
-    private void LilyAnimationReady(AnimatedSprite2D _animatedLily, (Vector2 velocity, string animation) LilyAction, float speed, bool IsOnFloor)
-    {
-        if (LilyAction.animation == "walk" && IsOnFloor)
-        {
-            _animatedLily.AnimationChanged += () => _animatedLily.Stop();
-            _animatedLily.Play("walk", speed);
-            switch (LilyAction.velocity.X)
+            animatedLily.AnimationChanged += () => animatedLily.Stop();
+            animatedLily.Play("walk", speed);
+            switch (lilyAction.velocity.X)
             {
                 case > 0:
-                    _animatedLily.FlipH = false; // move to right
+                    animatedLily.FlipH = false; // move to right
                     break;
                 case < 0:
-                    _animatedLily.FlipH = true;
+                    animatedLily.FlipH = true;
                     break;
             }
         }
 
-        if (LilyAction.animation == "wait" && IsOnFloor)
+        if (lilyAction.animation == "wait" && isOnFloor)
         {
-            _animatedLily.AnimationChanged += () => _animatedLily.Stop();
-            _animatedLily.Play("wait", speed);
+            animatedLily.AnimationChanged += () => animatedLily.Stop();
+            animatedLily.Play("wait", speed);
         }
 
-        if (LilyAction.animation == "jump" && !IsOnFloor) // IsOnFloor can be omitted, but inputted on purpose to indicate.
+        if (lilyAction.animation == "jump" && !isOnFloor) // IsOnFloor can be omitted, but inputted on purpose to indicate.
         {
-            _animatedLily.AnimationChanged += () => _animatedLily.Stop();
-            _animatedLily.Play("jump");
+            animatedLily.AnimationChanged += () => animatedLily.Stop();
+            animatedLily.Play("jump");
 
             const float threshold = 15f; // TODO: determine threshold
 
-            switch (LilyAction.velocity.Y)
+            switch (lilyAction.velocity.Y)
             {
                 case > threshold:
-                    _animatedLily.SetFrame(2); break; // jumping
+                    animatedLily.SetFrame(2); break; // jumping
                 case < -threshold:
-                    _animatedLily.SetFrame(0); break; // falling
+                    animatedLily.SetFrame(0); break; // falling
                 default:
-                    _animatedLily.SetFrame(1); break; // hovering (-threshold =< velocity.Y =< threshold)
+                    animatedLily.SetFrame(1); break; // hovering (-threshold =< velocity.Y =< threshold)
             }
-            switch (LilyAction.velocity.X)
+            switch (lilyAction.velocity.X)
             {
                 case > 0:
-                    _animatedLily.FlipH = false; // move to right
+                    animatedLily.FlipH = false; // move to right
                     break;
                 case < 0:
-                    _animatedLily.FlipH = true;
+                    animatedLily.FlipH = true;
                     break;
             }
         }
     }
 
-    public String LilyGetFloorType() // List <KinematicBody2D> collisions
+    private string LilyGetFloorType() // List <KinematicBody2D> collisions
     {
         if (GetSlideCollisionCount() == 0)
         {
@@ -199,21 +113,213 @@ public partial class LilyMovement : CharacterBody2D
         for (int i = 0; i < GetSlideCollisionCount(); i++)
         {
             KinematicCollision2D collision = GetSlideCollision(i);
-            var ContactedObj = collision.GetCollider();
+            var contactedObj = collision.GetCollider();
 
-            if ((ContactedObj as Node).Name != "CharacterBody2D")
+            if ((contactedObj as Node).Name != "CharacterBody2D" && (contactedObj as Node).Name != "TileMapLayer")
             {
                 return "Undefined";
             }
 
-            if ((ContactedObj as CharacterBody2D).Position.Y > Position.Y)
+            if ((contactedObj as Node).Name == "CharacterBody2D" && (contactedObj as CharacterBody2D).Position.Y > Position.Y)
             {
-                return (ContactedObj as Node).GetParent().Name;
+                return (contactedObj as Node).GetParent().Name;
             }
-
+            if ((contactedObj as Node).Name == "TileMapLayer")
+            {
+                return (contactedObj as Node).Name;
+            }
         }
 
-        return "Undefine";
+        return "Undefined";
     }
 
 }
+
+public static class LilyActionExtensions
+{
+    static LilyMovement lilyMovement { get; set; }
+
+    public static (Vector2 velocity, string animation) LilyHorizontalMove(this (Vector2 velocity, string animation) lilyAction, float walkSpeed, bool isOnFloor, bool isLilyControlled)
+    {
+        // When inputting right and left, or no key, player waits
+        if (isLilyControlled)
+        {
+            if (Input.IsActionPressed("move_left") && Input.IsActionPressed("move_right"))
+            {
+                lilyAction.velocity.X = 0;
+                return (lilyAction.velocity, "wait");
+            }
+            else if (Input.IsActionPressed("move_left"))
+            {
+                lilyAction.velocity.X = -walkSpeed;
+                return (lilyAction.velocity, "walk");
+            }
+            else if (Input.IsActionPressed("move_right"))
+            {
+                lilyAction.velocity.X = walkSpeed;
+                return (lilyAction.velocity, "walk");
+            }
+        }
+
+        switch (isOnFloor)
+        {
+            case true:
+                {
+                    lilyAction.velocity.X = 0;
+                    return (lilyAction.velocity, "wait");
+                }
+            case false:
+                {
+                    lilyAction.velocity.X = 0;
+                    return (lilyAction.velocity, "jump");
+                }
+        }
+    }
+
+    public static (Vector2 velocity, string animation) LilyJump(this (Vector2 velocity, string animation) lilyAction, int lilyJumpForce, bool isOnFloor, bool isLilyControlled)
+    {
+        if (!isLilyControlled)
+        {
+            return lilyAction;
+        }
+
+        if (isOnFloor)
+        {
+            if (Input.IsActionJustPressed("jump"))
+            {
+                lilyAction.velocity.Y = -lilyJumpForce;
+                lilyAction.animation = "jump";
+                return lilyAction;
+            }
+            else
+            {
+                return lilyAction;
+            }
+        }
+        else
+        {
+            lilyAction.animation = "jump"; //run jump animation when free falling
+            return lilyAction;
+        }
+    }
+
+    public static (Vector2 velocity, string animation) LilyInteractionMovement(this (Vector2 velocity, string animation) lilyAction, (string pre, string post) floorType, CharacterBody2D alice, float lilyGravity)
+    {
+        if (floorType.pre != "TileMapLayer" && floorType.post == "Alice") // When Lily is higher than Alice
+        {
+            lilyAction.velocity.X += alice.GetPositionDelta().X;
+            lilyAction.velocity.Y -= lilyGravity;
+        }
+        return lilyAction;
+    }
+
+    public static (Vector2 velocity, string animation) LilyApplyGravity(this (Vector2 velocity, string animation) lilyAction, float lilyGravity)
+    {
+        lilyAction.velocity.Y += lilyGravity;
+        return lilyAction;
+    }
+
+    public static (Vector2 velocity, string animation) LilyApplyTerminalVelocity(this (Vector2 velocity, string animation) lilyAction, int lilyTerminalVelocity)
+    {
+        if (lilyAction.velocity.Y > lilyTerminalVelocity)
+        {
+            lilyAction.velocity.Y = lilyTerminalVelocity;
+        }
+        return lilyAction;
+    }
+
+    public static void LilyAnimationReady(this (Vector2 velocity, string animation) lilyAction, AnimatedSprite2D animatedLily, float speed, bool isOnFloor)
+    {
+        if (lilyAction.animation == "walk" && isOnFloor)
+        {
+            animatedLily.AnimationChanged += () => animatedLily.Stop();
+            animatedLily.Play("walk", speed);
+            switch (lilyAction.velocity.X)
+            {
+                case > 0:
+                    animatedLily.FlipH = false; // move to right
+                    break;
+                case < 0:
+                    animatedLily.FlipH = true;
+                    break;
+            }
+        }
+
+        if (lilyAction.animation == "wait" && isOnFloor)
+        {
+            animatedLily.AnimationChanged += () => animatedLily.Stop();
+            animatedLily.Play("wait", speed);
+        }
+
+        if (lilyAction.animation == "jump" && !isOnFloor) // IsOnFloor can be omitted, but inputted on purpose to indicate.
+        {
+            animatedLily.AnimationChanged += () => animatedLily.Stop();
+            animatedLily.Play("jump");
+
+            const float threshold = 15f; // TODO: determine threshold
+
+            switch (lilyAction.velocity.Y)
+            {
+                case > threshold:
+                    animatedLily.SetFrame(2); break; // jumping
+                case < -threshold:
+                    animatedLily.SetFrame(0); break; // falling
+                default:
+                    animatedLily.SetFrame(1); break; // hovering (-threshold =< velocity.Y =< threshold)
+            }
+            switch (lilyAction.velocity.X)
+            {
+                case > 0:
+                    animatedLily.FlipH = false; // move to right
+                    break;
+                case < 0:
+                    animatedLily.FlipH = true;
+                    break;
+            }
+        }
+    }
+}
+
+
+
+/*
+public List<string> LilyGetFloorType(string[] ContactableObjNames)
+{
+    var FloorTypes = new List<string>(10);
+
+    if (GetSlideCollisionCount() == 0)
+    {
+        return new List<string>() { "None" };
+    }
+
+    for (int i = 0; i < GetSlideCollisionCount(); i++)
+    {
+        KinematicCollision2D collision = GetSlideCollision(i);
+        var ContactedObj = collision.GetCollider();
+
+        foreach (string ObjName in ContactableObjNames)
+        {
+            if ((ContactedObj as Node).Name == ObjName && !FloorTypes.Contains(ObjName)) // avoid overlapping
+            {
+                switch(ObjName)
+                {
+                    case "TileMapLayer":
+                        FloorTypes.Add((ContactedObj as Node).Name);
+                        break;
+                    case "CharacterBody2D":
+                        FloorTypes.Add((ContactedObj as Node).GetParent().Name);
+                        break;
+                    default:
+                        FloorTypes.Add(ObjName);
+                        break;
+                }
+            }
+        }
+    }
+
+    if (FloorTypes != null && FloorTypes.Count > 0)
+        return FloorTypes;
+    else
+        return new List<string>() { "Error" };
+}
+*/

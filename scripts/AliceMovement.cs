@@ -9,10 +9,10 @@ using System.Runtime.InteropServices;
 
 public partial class AliceMovement : CharacterBody2D
 {
-    [Export] private float AliceGravity = 7.5f; // main()
-    [Export] private int AliceWalkSpeed = 60; // AliceHorizontalMove()
-    [Export] private int AliceJumpForce = 135; // AliceJump()
-    [Export] private int AliceBounceForce = 10;
+    private float AliceGravity = 7.5f; // main()
+    private int AliceWalkSpeed = 60; // AliceHorizontalMove()
+    private int AliceJumpForce = 135; // AliceJump()
+    private int AliceBounceForce = 195;
     private int AliceTerminalVelocity = 120;
     private float AliceAnimationSpeed = 1.0f; // AliceAnimationReady()
     private bool AliceControlled = true;
