@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "E:\\\u30E1\u30C7\u30A3\u30A2\u985E\\\u30D7\u30ED\u30B0\u30E9\u30DF\u30F3\u30B0\\Godot\\rabi-laby\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{8BD25F80-26D1-4BC5-B72D-E07D02D4E896}|Rabi Laby.csproj|e:\\\u30E1\u30C7\u30A3\u30A2\u985E\\\u30D7\u30ED\u30B0\u30E9\u30DF\u30F3\u30B0\\godot\\rabi-laby\\scripts\\alicemovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8BD25F80-26D1-4BC5-B72D-E07D02D4E896}|Rabi Laby.csproj|solutionrelative:scripts\\alicemovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{8BD25F80-26D1-4BC5-B72D-E07D02D4E896}|Rabi Laby.csproj|e:\\\u30E1\u30C7\u30A3\u30A2\u985E\\\u30D7\u30ED\u30B0\u30E9\u30DF\u30F3\u30B0\\godot\\rabi-laby\\scripts\\lilymovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{8BD25F80-26D1-4BC5-B72D-E07D02D4E896}|Rabi Laby.csproj|solutionrelative:scripts\\lilymovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8BD25F80-26D1-4BC5-B72D-E07D02D4E896}|Rabi Laby.csproj|e:\\\u30E1\u30C7\u30A3\u30A2\u985E\\\u30D7\u30ED\u30B0\u30E9\u30DF\u30F3\u30B0\\godot\\rabi-laby\\scripts\\alicemovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8BD25F80-26D1-4BC5-B72D-E07D02D4E896}|Rabi Laby.csproj|solutionrelative:scripts\\alicemovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,7 +18,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -30,26 +30,26 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "AliceMovement.cs",
               "DocumentMoniker": "E:\\\u30E1\u30C7\u30A3\u30A2\u985E\\\u30D7\u30ED\u30B0\u30E9\u30DF\u30F3\u30B0\\Godot\\rabi-laby\\scripts\\AliceMovement.cs",
               "RelativeDocumentMoniker": "scripts\\AliceMovement.cs",
               "ToolTip": "E:\\\u30E1\u30C7\u30A3\u30A2\u985E\\\u30D7\u30ED\u30B0\u30E9\u30DF\u30F3\u30B0\\Godot\\rabi-laby\\scripts\\AliceMovement.cs",
               "RelativeToolTip": "scripts\\AliceMovement.cs",
-              "ViewState": "AgIAAEEAAAAAAAAAAAAQwA4AAAArAAAAAAAAAA==",
+              "ViewState": "AgIAABgAAAAAAAAAAAAcwCsAAAAXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-01-06T14:53:24.504Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "LilyMovement.cs",
               "DocumentMoniker": "E:\\\u30E1\u30C7\u30A3\u30A2\u985E\\\u30D7\u30ED\u30B0\u30E9\u30DF\u30F3\u30B0\\Godot\\rabi-laby\\scripts\\LilyMovement.cs",
               "RelativeDocumentMoniker": "scripts\\LilyMovement.cs",
               "ToolTip": "E:\\\u30E1\u30C7\u30A3\u30A2\u985E\\\u30D7\u30ED\u30B0\u30E9\u30DF\u30F3\u30B0\\Godot\\rabi-laby\\scripts\\LilyMovement.cs",
               "RelativeToolTip": "scripts\\LilyMovement.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAApAAAAAAAAAA==",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAA4AAAAvAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-01-07T12:23:04.76Z",
               "EditorCaption": ""
