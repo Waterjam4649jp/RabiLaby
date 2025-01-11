@@ -3,12 +3,20 @@
   "WorkspaceRootPath": "E:\\\u30E1\u30C7\u30A3\u30A2\u985E\\\u30D7\u30ED\u30B0\u30E9\u30DF\u30F3\u30B0\\Godot\\rabi-laby\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{8BD25F80-26D1-4BC5-B72D-E07D02D4E896}|Rabi Laby.csproj|e:\\\u30E1\u30C7\u30A3\u30A2\u985E\\\u30D7\u30ED\u30B0\u30E9\u30DF\u30F3\u30B0\\godot\\rabi-laby\\src\\playercontroller\\playermovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8BD25F80-26D1-4BC5-B72D-E07D02D4E896}|Rabi Laby.csproj|solutionrelative:src\\playercontroller\\playermovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{8BD25F80-26D1-4BC5-B72D-E07D02D4E896}|Rabi Laby.csproj|e:\\\u30E1\u30C7\u30A3\u30A2\u985E\\\u30D7\u30ED\u30B0\u30E9\u30DF\u30F3\u30B0\\godot\\rabi-laby\\src\\animationhandler\\commonanimation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8BD25F80-26D1-4BC5-B72D-E07D02D4E896}|Rabi Laby.csproj|solutionrelative:src\\animationhandler\\commonanimation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{8BD25F80-26D1-4BC5-B72D-E07D02D4E896}|Rabi Laby.csproj|e:\\\u30E1\u30C7\u30A3\u30A2\u985E\\\u30D7\u30ED\u30B0\u30E9\u30DF\u30F3\u30B0\\godot\\rabi-laby\\src\\playercontroller\\lily\\lilymovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{8BD25F80-26D1-4BC5-B72D-E07D02D4E896}|Rabi Laby.csproj|solutionrelative:src\\playercontroller\\lily\\lilymovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8BD25F80-26D1-4BC5-B72D-E07D02D4E896}|Rabi Laby.csproj|e:\\\u30E1\u30C7\u30A3\u30A2\u985E\\\u30D7\u30ED\u30B0\u30E9\u30DF\u30F3\u30B0\\godot\\rabi-laby\\src\\playercontroller\\playermovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8BD25F80-26D1-4BC5-B72D-E07D02D4E896}|Rabi Laby.csproj|solutionrelative:src\\playercontroller\\playermovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8BD25F80-26D1-4BC5-B72D-E07D02D4E896}|Rabi Laby.csproj|e:\\\u30E1\u30C7\u30A3\u30A2\u985E\\\u30D7\u30ED\u30B0\u30E9\u30DF\u30F3\u30B0\\godot\\rabi-laby\\src\\inputmap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8BD25F80-26D1-4BC5-B72D-E07D02D4E896}|Rabi Laby.csproj|solutionrelative:src\\inputmap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,7 +26,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -30,13 +38,39 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "InputMap.cs",
+              "DocumentMoniker": "E:\\\u30E1\u30C7\u30A3\u30A2\u985E\\\u30D7\u30ED\u30B0\u30E9\u30DF\u30F3\u30B0\\GODOT\\RABI-LABY\\src\\InputMap.cs",
+              "RelativeDocumentMoniker": "src\\InputMap.cs",
+              "ToolTip": "E:\\\u30E1\u30C7\u30A3\u30A2\u985E\\\u30D7\u30ED\u30B0\u30E9\u30DF\u30F3\u30B0\\GODOT\\RABI-LABY\\src\\InputMap.cs",
+              "RelativeToolTip": "src\\InputMap.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-11T09:01:36.048Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "CommonAnimation.cs",
+              "DocumentMoniker": "E:\\\u30E1\u30C7\u30A3\u30A2\u985E\\\u30D7\u30ED\u30B0\u30E9\u30DF\u30F3\u30B0\\Godot\\rabi-laby\\src\\AnimationHandler\\CommonAnimation.cs",
+              "RelativeDocumentMoniker": "src\\AnimationHandler\\CommonAnimation.cs",
+              "ToolTip": "E:\\\u30E1\u30C7\u30A3\u30A2\u985E\\\u30D7\u30ED\u30B0\u30E9\u30DF\u30F3\u30B0\\Godot\\rabi-laby\\src\\AnimationHandler\\CommonAnimation.cs",
+              "RelativeToolTip": "src\\AnimationHandler\\CommonAnimation.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAABDAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-11T08:33:42.219Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "PlayerMovement.cs",
               "DocumentMoniker": "E:\\\u30E1\u30C7\u30A3\u30A2\u985E\\\u30D7\u30ED\u30B0\u30E9\u30DF\u30F3\u30B0\\Godot\\rabi-laby\\src\\PlayerController\\PlayerMovement.cs",
               "RelativeDocumentMoniker": "src\\PlayerController\\PlayerMovement.cs",
               "ToolTip": "E:\\\u30E1\u30C7\u30A3\u30A2\u985E\\\u30D7\u30ED\u30B0\u30E9\u30DF\u30F3\u30B0\\Godot\\rabi-laby\\src\\PlayerController\\PlayerMovement.cs",
               "RelativeToolTip": "src\\PlayerController\\PlayerMovement.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAABMAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAA0AAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-01-10T12:31:27.243Z",
               "EditorCaption": ""
@@ -49,7 +83,7 @@
               "RelativeDocumentMoniker": "src\\PlayerController\\Lily\\LilyMovement.cs",
               "ToolTip": "E:\\\u30E1\u30C7\u30A3\u30A2\u985E\\\u30D7\u30ED\u30B0\u30E9\u30DF\u30F3\u30B0\\Godot\\rabi-laby\\src\\PlayerController\\Lily\\LilyMovement.cs",
               "RelativeToolTip": "src\\PlayerController\\Lily\\LilyMovement.cs",
-              "ViewState": "AgIAABUBAAAAAAAAAADwv0QBAAACAAAAAAAAAA==",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAkAAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-01-10T12:15:04.997Z",
               "EditorCaption": ""

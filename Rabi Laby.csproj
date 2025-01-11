@@ -6,4 +6,8 @@
     <EnableDynamicLoading>true</EnableDynamicLoading>
     <RootNamespace>RabiLaby</RootNamespace>
   </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="backup\**" />
+    <EmbeddedResource Remove="backup\**" />
+  </ItemGroup>
 </Project>

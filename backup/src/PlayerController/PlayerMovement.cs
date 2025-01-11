@@ -10,17 +10,33 @@ using System.Runtime.InteropServices;
 
 namespace RabiLaby.src.PlayerController
 {
+    public static class GetKeyName
+    {
+        private static readonly Dictionary<string, string> KeyMap = new Dictionary<string, string>
+    {
+        { "jump", "move_jump" },
+        { "right", "move_right" },
+        { "left", "move_left" },
+    };
+
+        public static string jump => KeyMap["jump"];
+        public static string right => KeyMap["right"];
+        public static string left => KeyMap["left"];
+    }
+
     public static class PlayerMovement
     {
-        public static Vector2 Apply(Vector2 velocity,
-                                    float Gravity, 
-                                    int WalkSpeed,
-                                    int JumpForce,
-                                    int TerminalVelocity,
-                                    bool isOnFloor,
-                                    bool isControlled)
+        public static Vector2 velocity { get; set; }
+        private static float Gravity { get; }
+        private static int WalkSpeed { get; }
+        private static int JumpForce { get; }
+        private static int TerminalVelocity { get; }
+        private static bool isOnFloor { get; }
+        private static bool isControlled { get; }
+
+        public static void Apply() // as main
         {
-            return velocity
+            velocity
             .PlayerController(WalkSpeed, JumpForce, isOnFloor, isControlled)
             .ApplyGravity(Gravity)
             .ApplyTerminalVelocity(TerminalVelocity);
@@ -36,40 +52,34 @@ namespace RabiLaby.src.PlayerController
 
         public static Vector2 PlayerController(this Vector2 velocity, float walkSpeed, int JumpForce, bool isOnFloor, bool isControlled)
         {
+            if (isOnFloor)
+            {
+                if (Input.IsActionJustPressed("jump"))
+                {
+                    velocity.Y = -JumpForce;
+                }
+            }
+
+            // When inputting right and left, or no key, player waits
             if (isControlled)
             {
-                if (isOnFloor)
-                {
-                    if (Input.IsActionJustPressed("jump"))
-                    {
-                        velocity.Y = -JumpForce;
-                    }
-                }
-
-                // When inputting right and left, or no key, player waits
-                if (Input.IsActionPressed(GetControllMap.left) && Input.IsActionPressed(GetControllMap.right))
+                if (Input.IsActionPressed(GetKeyName.left) && Input.IsActionPressed(GetKeyName.right))
                 {
                     velocity.X = 0;
                     return velocity;
                 }
-                else if (Input.IsActionPressed(GetControllMap.left))
+                else if (Input.IsActionPressed(GetKeyName.left))
                 {
                     velocity.X = -walkSpeed;
                     return velocity;
                 }
-                else if (Input.IsActionPressed(GetControllMap.right))
+                else if (Input.IsActionPressed(GetKeyName.right))
                 {
                     velocity.X = walkSpeed;
                     return velocity;
                 }
-                else
-                {
-                    velocity.X = 0;
-                    return velocity;
-                }
             }
 
-            velocity.X = 0;
             return velocity;
         }
 
