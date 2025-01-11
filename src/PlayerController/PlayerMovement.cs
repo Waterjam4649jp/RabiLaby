@@ -1,12 +1,4 @@
 using Godot;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
-using System.Reflection.Metadata.Ecma335;
-using System.Runtime.InteropServices;
-
 
 namespace RabiLaby.src.PlayerController
 {
@@ -32,7 +24,7 @@ namespace RabiLaby.src.PlayerController
     public static class VelocityController
     {
 
-        public static Vector2 velocity { get; set; }
+        public static Vector2 Velocity { get; set; }
 
         public static Vector2 PlayerController(this Vector2 velocity, float walkSpeed, int JumpForce, bool isOnFloor, bool isControlled)
         {
@@ -40,24 +32,24 @@ namespace RabiLaby.src.PlayerController
             {
                 if (isOnFloor)
                 {
-                    if (Input.IsActionJustPressed("jump"))
+                    if (Input.IsActionJustPressed(GetControllMap.Jump))
                     {
                         velocity.Y = -JumpForce;
                     }
                 }
 
                 // When inputting right and left, or no key, player waits
-                if (Input.IsActionPressed(GetControllMap.left) && Input.IsActionPressed(GetControllMap.right))
+                if (Input.IsActionPressed(GetControllMap.Left) && Input.IsActionPressed(GetControllMap.Right))
                 {
                     velocity.X = 0;
                     return velocity;
                 }
-                else if (Input.IsActionPressed(GetControllMap.left))
+                else if (Input.IsActionPressed(GetControllMap.Left))
                 {
                     velocity.X = -walkSpeed;
                     return velocity;
                 }
-                else if (Input.IsActionPressed(GetControllMap.right))
+                else if (Input.IsActionPressed(GetControllMap.Right))
                 {
                     velocity.X = walkSpeed;
                     return velocity;
@@ -88,47 +80,4 @@ namespace RabiLaby.src.PlayerController
             return velocity;
         }
     }
-
-
-    /*
-    public List<string> GetFloorType(string[] ContactableObjNames)
-    {
-        var FloorTypes = new List<string>(10);
-
-        if (GetSlideCollisionCount() == 0)
-        {
-            return new List<string>() { "None" };
-        }
-
-        for (int i = 0; i < GetSlideCollisionCount(); i++)
-        {
-            KinematicCollision2D collision = GetSlideCollision(i);
-            var ContactedObj = collision.GetCollider();
-
-            foreach (string ObjName in ContactableObjNames)
-            {
-                if ((ContactedObj as Node).Name == ObjName && !FloorTypes.Contains(ObjName)) // avoid overlapping
-                {
-                    switch(ObjName)
-                    {
-                        case "TileMapLayer":
-                            FloorTypes.Add((ContactedObj as Node).Name);
-                            break;
-                        case "CharacterBody2D":
-                            FloorTypes.Add((ContactedObj as Node).GetParent().Name);
-                            break;
-                        default:
-                            FloorTypes.Add(ObjName);
-                            break;
-                    }
-                }
-            }
-        }
-
-        if (FloorTypes != null && FloorTypes.Count > 0)
-            return FloorTypes;
-        else
-            return new List<string>() { "Error" };
-    }
-    */
 }

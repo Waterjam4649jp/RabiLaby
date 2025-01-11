@@ -2,14 +2,14 @@
 
 [ext_resource type="Texture2D" uid="uid://ci8xv6ph6mpjn" path="res://assets/tips/Alice/Alice2.png" id="1_lgtow"]
 [ext_resource type="Texture2D" uid="uid://lushypal162v" path="res://assets/tips/Alice/Alice3.png" id="2_0lfog"]
-[ext_resource type="Script" path="res://src/PlayerController/Lily/LilyMovement.cs" id="2_8low2"]
+[ext_resource type="Script" path="res://src/PlayerController/Lily/LilyController.cs" id="2_656ws"]
 [ext_resource type="Texture2D" uid="uid://b0rqo40xcnipw" path="res://assets/tips/Alice/Alice1.png" id="3_3s5qq"]
 [ext_resource type="Texture2D" uid="uid://b0q7bk8783ufl" path="res://assets/tilemap/tilemap.png" id="4_m8cql"]
 [ext_resource type="Texture2D" uid="uid://deoyhx1baw0fv" path="res://assets/tips/Lily/3.png" id="6_pcusl"]
 [ext_resource type="Texture2D" uid="uid://dnphi15fi3dbx" path="res://assets/tips/Lily/1.png" id="7_1piry"]
-[ext_resource type="Script" path="res://src/PlayerController/Alice/AliceMovement.cs" id="7_c12wc"]
 [ext_resource type="Texture2D" uid="uid://bc4vsfydvq0a0" path="res://assets/tips/Lily/2.png" id="8_3cjle"]
 [ext_resource type="Texture2D" uid="uid://d0ybqthrgaol5" path="res://assets/tips/Alice/Alice4.png" id="8_ndsrr"]
+[ext_resource type="Script" path="res://src/PlayerController/Alice/AliceController.cs" id="8_t8k8o"]
 [ext_resource type="Texture2D" uid="uid://cgsal1k4ew7rg" path="res://assets/tips/Lily/4.png" id="9_2nvfb"]
 [ext_resource type="Texture2D" uid="uid://b17vr3exelxnt" path="res://assets/tips/Lily/5.png" id="10_jvwax"]
 [ext_resource type="Texture2D" uid="uid://cs8f2vn5inowg" path="res://assets/tips/Alice/Alice5.png" id="10_mh72a"]
@@ -144,7 +144,7 @@ floor_constant_speed = true
 platform_on_leave = 2
 platform_floor_layers = 4294967043
 platform_wall_layers = 3
-script = ExtResource("2_8low2")
+script = ExtResource("2_656ws")
 metadata/_edit_lock_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Lily/CharacterBody2D"]
@@ -169,7 +169,7 @@ floor_constant_speed = true
 platform_on_leave = 2
 platform_floor_layers = 4294967043
 platform_wall_layers = 2
-script = ExtResource("7_c12wc")
+script = ExtResource("8_t8k8o")
 metadata/_edit_lock_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Alice/CharacterBody2D"]
@@ -182,5 +182,5 @@ metadata/_edit_lock_ = true
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Alice/CharacterBody2D"]
 position = Vector2(0, 0.5)
 sprite_frames = SubResource("SpriteFrames_ny2jy")
-animation = &"wait"
+animation = &"jump"
 metadata/_edit_lock_ = true

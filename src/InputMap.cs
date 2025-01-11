@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -8,29 +9,39 @@ namespace RabiLaby.src
 {
     internal class GetControllMap
     {
-        private static readonly Dictionary<string, string> KeyMap = new Dictionary<string, string>
-        {
-            { "jump", "move_jump" },
-            { "right", "move_right" },
-            { "left", "move_left" },
-        };
-
-        public static string jump => KeyMap["jump"];
-        public static string right => KeyMap["right"];
-        public static string left => KeyMap["left"];
+        public static string Jump => "jump";
+        public static string Right => "move_right";
+        public static string Left => "move_left";
     }
 
     internal class GetAnimationMap
     {
-        private static readonly Dictionary<string, string> KeyMap = new Dictionary<string, string>
-        {
-            { "jump", "jump" },
-            { "walk", "walk" },
-            { "wait", "wait" },
-        };
+        public static string Jump => "jump";
+        public static string Walk => "walk";
+        public static string Wait => "wait";
+    }
 
-        public static string jump => KeyMap["jump"];
-        public static string right => KeyMap["walk"];
-        public static string left => KeyMap["wait"];
+    internal class GetObjectMap
+    {
+        public enum ObjectType
+        {
+            Map = 0,
+            Character = 1,
+            Object = 2,
+            Spike = 3
+        }
+
+        public static string Map => "TileMapLayer";
+        public static string Character => "CharacterBody2D";
+
+        public static int Length() => Enum.GetNames(typeof(ObjectType)).Length;
+
+        public static string GetObjectName(int ObjectNumber) =>
+            ((ObjectType?)ObjectNumber) switch
+            {
+                ObjectType.Map => "TileMapLayer",
+                ObjectType.Character => "CharacterBody2D",
+                _ => "Undefined"
+            };
     }
 }
