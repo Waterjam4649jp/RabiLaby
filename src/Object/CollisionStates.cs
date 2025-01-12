@@ -1,7 +1,7 @@
 ﻿using Godot;
 using System.Collections.Generic;
 
-namespace RabiLaby.src.ObjectController
+namespace RabiLaby.src.Object
 {
     internal class CollisionStates
     {

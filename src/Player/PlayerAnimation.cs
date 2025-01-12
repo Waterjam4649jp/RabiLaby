@@ -1,13 +1,10 @@
 using Godot;
-using System;
-using System.Text.RegularExpressions;
 
-namespace RabiLaby.src.AnimationController
+namespace RabiLaby.src.Player
 {
     public static class PlayerAnimation
     {
         private static string AnimationName;
-        private static bool isSpecificAnimationIsPlaying = false;
         public static void Apply(AnimatedSprite2D _animation, float speed, Vector2 velocity, bool isOnFloor, bool isControlled)
         {
             AnimationName = Controll(_animation, isOnFloor, isControlled);
@@ -43,13 +40,7 @@ namespace RabiLaby.src.AnimationController
 
         private static void Ready(AnimatedSprite2D _animation, string AnimationName, float speed, Vector2 velocity, bool isOnFloor)
         {
-            if (isSpecificAnimationIsPlaying)
-            {
-                _animation.AnimationFinished += () => isSpecificAnimationIsPlaying = false;
-                return;
-            }
-            else
-                _animation.AnimationChanged += () => _animation.Stop();
+            _animation.AnimationChanged += () => _animation.Stop();
 
             if (AnimationName == GetAnimationMap.Wait && isOnFloor)
             {
@@ -77,12 +68,6 @@ namespace RabiLaby.src.AnimationController
                         _animation.SetFrame(1); break; // hovering (-threshold =< velocity.Y =< threshold)
                 }
             }
-        }
-
-        public static void SpecificAnimation(AnimatedSprite2D _animation, string AnimationName, float speed)
-        {
-            _animation.Play(AnimationName, speed);
-            isSpecificAnimationIsPlaying = true;
         }
     }
 }

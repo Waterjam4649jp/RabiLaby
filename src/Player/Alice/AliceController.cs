@@ -1,7 +1,6 @@
 using Godot;
-using RabiLaby.src.ObjectController;
-using RabiLaby.src.PlayerController;
-using RabiLaby.src.AnimationController;
+using RabiLaby.src.Object;
+using RabiLaby.src.Player;
 using System;
 
 public partial class AliceController : CharacterBody2D
@@ -20,8 +19,8 @@ public partial class AliceController : CharacterBody2D
     public (string pre, string post) floorType = ("None", "None"); // used for AnimationController\Lily\Lily.cs
     private Vector2 velocity;
 
-    public delegate void StepOnLily();
-    public event StepOnLily OnStepOnLily;
+    [Signal]
+    public delegate void AliceSteppedOnLilyEventHandler();
 
     public override void _Ready()
     {
@@ -54,7 +53,6 @@ public partial class AliceController : CharacterBody2D
                               isControlled);
 
         floorType = (floorType.post, CollisionStates.GetFloorType(_body));
-        if (floorType.pre != floorType.post) { GD.Print(floorType); }
     }
 
     private Vector2 InteractionMovement(Vector2 velocity, (string pre, string post) floorType)
@@ -62,7 +60,7 @@ public partial class AliceController : CharacterBody2D
         if (floorType.post == "Lily")
         {
             velocity.Y = -BounceForce;
-            OnStepOnLily?.Invoke();
+            EmitSignal(SignalName.AliceSteppedOnLily);
         }
         return velocity;
     }

@@ -1,11 +1,11 @@
 using Godot;
 
-namespace RabiLaby.src.PlayerController
+namespace RabiLaby.src.Player
 {
     public static class PlayerMovement
     {
         public static Vector2 Apply(Vector2 velocity,
-                                    float Gravity, 
+                                    float Gravity,
                                     int WalkSpeed,
                                     int JumpForce,
                                     int TerminalVelocity,

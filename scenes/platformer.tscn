@@ -2,14 +2,14 @@
 
 [ext_resource type="Texture2D" uid="uid://ci8xv6ph6mpjn" path="res://assets/tips/Alice/Alice2.png" id="1_lgtow"]
 [ext_resource type="Texture2D" uid="uid://lushypal162v" path="res://assets/tips/Alice/Alice3.png" id="2_0lfog"]
-[ext_resource type="Script" path="res://src/PlayerController/Lily/LilyController.cs" id="2_656ws"]
+[ext_resource type="Script" path="res://src/Player/Lily/LilyController.cs" id="2_656ws"]
 [ext_resource type="Texture2D" uid="uid://b0rqo40xcnipw" path="res://assets/tips/Alice/Alice1.png" id="3_3s5qq"]
 [ext_resource type="Texture2D" uid="uid://b0q7bk8783ufl" path="res://assets/tilemap/tilemap.png" id="4_m8cql"]
 [ext_resource type="Texture2D" uid="uid://deoyhx1baw0fv" path="res://assets/tips/Lily/3.png" id="6_pcusl"]
 [ext_resource type="Texture2D" uid="uid://dnphi15fi3dbx" path="res://assets/tips/Lily/1.png" id="7_1piry"]
 [ext_resource type="Texture2D" uid="uid://bc4vsfydvq0a0" path="res://assets/tips/Lily/2.png" id="8_3cjle"]
 [ext_resource type="Texture2D" uid="uid://d0ybqthrgaol5" path="res://assets/tips/Alice/Alice4.png" id="8_ndsrr"]
-[ext_resource type="Script" path="res://src/PlayerController/Alice/AliceController.cs" id="8_t8k8o"]
+[ext_resource type="Script" path="res://src/Player/Alice/AliceController.cs" id="8_t8k8o"]
 [ext_resource type="Texture2D" uid="uid://cgsal1k4ew7rg" path="res://assets/tips/Lily/4.png" id="9_2nvfb"]
 [ext_resource type="Texture2D" uid="uid://b17vr3exelxnt" path="res://assets/tips/Lily/5.png" id="10_jvwax"]
 [ext_resource type="Texture2D" uid="uid://cs8f2vn5inowg" path="res://assets/tips/Alice/Alice5.png" id="10_mh72a"]
@@ -58,16 +58,19 @@ animations = [{
 "speed": 5.0
 }, {
 "frames": [{
-"duration": 1.0,
+"duration": 0.4,
 "texture": ExtResource("9_2nvfb")
 }, {
-"duration": 1.0,
+"duration": 0.4,
 "texture": ExtResource("10_jvwax")
 }, {
-"duration": 1.0,
+"duration": 0.4,
 "texture": ExtResource("8_3cjle")
+}, {
+"duration": 0.4,
+"texture": ExtResource("7_1piry")
 }],
-"loop": true,
+"loop": false,
 "name": &"vibe",
 "speed": 5.0
 }, {
@@ -184,3 +187,5 @@ position = Vector2(0, 0.5)
 sprite_frames = SubResource("SpriteFrames_ny2jy")
 animation = &"jump"
 metadata/_edit_lock_ = true
+
+[connection signal="AliceSteppedOnLily" from="Alice/CharacterBody2D" to="Lily/CharacterBody2D" method="OnAliceSteppedOnLily"]
