@@ -1,14 +1,8 @@
 using Godot;
-using RabiLaby.src;
-using RabiLaby.src.AnimationController;
+using RabiLaby.src.ObjectController;
 using RabiLaby.src.PlayerController;
+using RabiLaby.src.AnimationController;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
-using System.Reflection.Metadata.Ecma335;
-using System.Runtime.InteropServices;
 
 public partial class AliceController : CharacterBody2D
 {
@@ -22,9 +16,12 @@ public partial class AliceController : CharacterBody2D
 
     private CharacterBody2D _body;
     private AnimatedSprite2D _animation;
-    private (string pre, string post) floorType = ("None", "None");
 
+    public (string pre, string post) floorType = ("None", "None"); // used for AnimationController\Lily\Lily.cs
     private Vector2 velocity;
+
+    public delegate void StepOnLily();
+    public event StepOnLily OnStepOnLily;
 
     public override void _Ready()
     {
@@ -50,7 +47,7 @@ public partial class AliceController : CharacterBody2D
         Velocity = InteractionMovement(Velocity, floorType);
         MoveAndSlide();
 
-        CommonAnimation.Apply(_animation,
+        PlayerAnimation.Apply(_animation,
                               AnimationSpeed,
                               Velocity,
                               IsOnFloor(),
@@ -62,9 +59,10 @@ public partial class AliceController : CharacterBody2D
 
     private Vector2 InteractionMovement(Vector2 velocity, (string pre, string post) floorType)
     {
-        if (floorType.post == "Lily") // When  Alis higher than 
+        if (floorType.post == "Lily")
         {
             velocity.Y = -BounceForce;
+            OnStepOnLily?.Invoke();
         }
         return velocity;
     }

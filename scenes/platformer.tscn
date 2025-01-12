@@ -157,7 +157,7 @@ metadata/_edit_lock_ = true
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Lily/CharacterBody2D"]
 position = Vector2(0, -5.5)
 sprite_frames = SubResource("SpriteFrames_b46iv")
-animation = &"wait"
+animation = &"vibe"
 metadata/_edit_lock_ = true
 
 [node name="Alice" type="Node2D" parent="."]

@@ -1,18 +1,20 @@
 using Godot;
 using System;
+using System.Text.RegularExpressions;
 
 namespace RabiLaby.src.AnimationController
 {
-    public static class CommonAnimation
+    public static class PlayerAnimation
     {
         private static string AnimationName;
+        private static bool isSpecificAnimationIsPlaying = false;
         public static void Apply(AnimatedSprite2D _animation, float speed, Vector2 velocity, bool isOnFloor, bool isControlled)
         {
             AnimationName = Controll(_animation, isOnFloor, isControlled);
             Ready(_animation, AnimationName, speed, velocity, isOnFloor);
         }
 
-        public static string Controll(AnimatedSprite2D _animation, bool isOnFloor, bool isControlled)
+        private static string Controll(AnimatedSprite2D _animation, bool isOnFloor, bool isControlled)
         {
             if (isControlled)
             {
@@ -39,26 +41,31 @@ namespace RabiLaby.src.AnimationController
             return GetAnimationMap.Wait;
         }
 
-        public static void Ready(AnimatedSprite2D _animation, string AnimationName, float speed, Vector2 velocity, bool isOnFloor)
+        private static void Ready(AnimatedSprite2D _animation, string AnimationName, float speed, Vector2 velocity, bool isOnFloor)
         {
+            if (isSpecificAnimationIsPlaying)
+            {
+                _animation.AnimationFinished += () => isSpecificAnimationIsPlaying = false;
+                return;
+            }
+            else
+                _animation.AnimationChanged += () => _animation.Stop();
+
             if (AnimationName == GetAnimationMap.Wait && isOnFloor)
             {
-                _animation.AnimationChanged += () => _animation.Stop();
                 _animation.Play(AnimationName, speed);
             }
 
             if (AnimationName == GetAnimationMap.Walk && isOnFloor)
             {
-                _animation.AnimationChanged += () => _animation.Stop();
                 _animation.Play(AnimationName, speed);
             }
 
             if (!isOnFloor) // IsOnFloor can be omitted, but inputted on purpose to indicate.
             {
-                _animation.AnimationChanged += () => _animation.Stop();
                 _animation.Play(GetAnimationMap.Jump);
 
-                const float threshold = 15f; // TODO: determine threshold
+                const float threshold = 15f;
 
                 switch (velocity.Y)
                 {
@@ -70,6 +77,12 @@ namespace RabiLaby.src.AnimationController
                         _animation.SetFrame(1); break; // hovering (-threshold =< velocity.Y =< threshold)
                 }
             }
+        }
+
+        public static void SpecificAnimation(AnimatedSprite2D _animation, string AnimationName, float speed)
+        {
+            _animation.Play(AnimationName, speed);
+            isSpecificAnimationIsPlaying = true;
         }
     }
 }

@@ -1,12 +1,7 @@
 ﻿using Godot;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
-namespace RabiLaby.src.PlayerController
+namespace RabiLaby.src.ObjectController
 {
     internal class CollisionStates
     {
@@ -20,7 +15,7 @@ namespace RabiLaby.src.PlayerController
             for (int i = 0; i < _body.GetSlideCollisionCount(); i++)
             {
                 KinematicCollision2D collision = _body.GetSlideCollision(i);
-                var contactedObj = (collision.GetCollider() as Node);
+                var contactedObj = collision.GetCollider() as Node;
 
                 for (int j = 0; j < GetObjectMap.Length(); j++)
                 {
@@ -50,7 +45,7 @@ namespace RabiLaby.src.PlayerController
             for (int i = 0; i < _body.GetSlideCollisionCount(); i++)
             {
                 KinematicCollision2D collision = _body.GetSlideCollision(i);
-                var contactedObj = (collision.GetCollider() as Node);
+                var contactedObj = collision.GetCollider() as Node;
 
                 for (int j = 0; j < GetObjectMap.Length(); i++)
                 {

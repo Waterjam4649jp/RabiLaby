@@ -1,4 +1,5 @@
 using Godot;
+using RabiLaby.src.ObjectController;
 using RabiLaby.src.PlayerController;
 using RabiLaby.src.AnimationController;
 
@@ -12,7 +13,8 @@ public partial class LilyController : CharacterBody2D
 
     private CharacterBody2D _body;
     private AnimatedSprite2D _animation;
-    private float LilyAnimationSpeed = 1.0f; // AnimationReady()
+    private AliceController _alice;
+    private float AnimationSpeed = 1.0f; // AnimationReady()
     private bool isLilyControlled = false;
     private (string pre, string post) floorType = ("None", "None");
 
@@ -22,6 +24,7 @@ public partial class LilyController : CharacterBody2D
     {
         _body = GetNode<CharacterBody2D>(GetPath());
         _animation = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+        _alice = new AliceController();
 
         PlatformOnLeave = PlatformOnLeaveEnum.DoNothing;
     }
@@ -40,11 +43,14 @@ public partial class LilyController : CharacterBody2D
                                         isLilyControlled);
         MoveAndSlide();
 
-        CommonAnimation.Apply(_animation,
-                              LilyAnimationSpeed,
+        PlayerAnimation.Apply(_animation,
+                              AnimationSpeed,
                               Velocity,
                               IsOnFloor(),
                               isLilyControlled);
+
+        _alice.OnStepOnLily += () => PlayerAnimation.SpecificAnimation(_animation, "vibe", AnimationSpeed);
+        _alice.OnStepOnLily += () => GD.Print("OK");
 
         floorType = (floorType.post, CollisionStates.GetFloorType(_body));
         if (floorType.pre != floorType.post) { GD.Print(floorType); }
