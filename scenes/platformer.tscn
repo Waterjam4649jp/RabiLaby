@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=4 uid="uid://bu7d4cogyxc07"]
+[gd_scene load_steps=21 format=4 uid="uid://bu7d4cogyxc07"]
 
 [ext_resource type="Texture2D" uid="uid://ci8xv6ph6mpjn" path="res://assets/tips/Alice/Alice2.png" id="1_lgtow"]
 [ext_resource type="Texture2D" uid="uid://lushypal162v" path="res://assets/tips/Alice/Alice3.png" id="2_0lfog"]
@@ -33,8 +33,7 @@ texture = ExtResource("4_m8cql")
 2:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -7.5, 8, -7.5, 8, 7.5, -8, 7.5)
 
 [sub_resource type="TileSet" id="TileSet_rai0d"]
-physics_layer_0/collision_layer = 255
-physics_layer_0/collision_mask = 255
+physics_layer_0/collision_layer = 1
 physics_layer_0/physics_material = SubResource("PhysicsMaterial_igkng")
 sources/0 = SubResource("TileSetAtlasSource_32k7f")
 
@@ -94,6 +93,9 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vlib1"]
+size = Vector2(20, 20.1409)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_ny2jy"]
 animations = [{
 "frames": [{
@@ -145,8 +147,6 @@ position = Vector2(79, 168)
 position = Vector2(0, -6)
 floor_constant_speed = true
 platform_on_leave = 2
-platform_floor_layers = 4294967043
-platform_wall_layers = 3
 script = ExtResource("2_656ws")
 metadata/_edit_lock_ = true
 
@@ -170,15 +170,13 @@ position = Vector2(60, 161)
 position = Vector2(0, -11)
 floor_constant_speed = true
 platform_on_leave = 2
-platform_floor_layers = 4294967043
-platform_wall_layers = 2
 script = ExtResource("8_t8k8o")
 metadata/_edit_lock_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Alice/CharacterBody2D"]
 position = Vector2(0, 3.5)
 scale = Vector2(0.55, 0.792)
-shape = SubResource("RectangleShape2D_2ma4l")
+shape = SubResource("RectangleShape2D_vlib1")
 one_way_collision = true
 metadata/_edit_lock_ = true
 
@@ -187,5 +185,3 @@ position = Vector2(0, 0.5)
 sprite_frames = SubResource("SpriteFrames_ny2jy")
 animation = &"jump"
 metadata/_edit_lock_ = true
-
-[connection signal="AliceSteppedOnLily" from="Alice/CharacterBody2D" to="Lily/CharacterBody2D" method="OnAliceSteppedOnLily"]
