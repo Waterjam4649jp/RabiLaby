@@ -1,6 +1,6 @@
 using Godot;
 
-namespace RabiLaby.src.Player
+namespace RabiLaby.src.Object.Player
 {
     public static class PlayerAnimation
     {

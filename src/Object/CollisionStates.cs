@@ -21,7 +21,7 @@ namespace RabiLaby.src.Object
                 {
                     if (contactedObj.Name == GetObjectMap.GetObjectName(j))
                     {
-                        if (contactedObj.Name == GetObjectMap.Character
+                        if (contactedObj.Name == GetObjectMap.Player
                             && (collision.GetCollider() as CharacterBody2D).Position.Y > _body.Position.Y)
                             return contactedObj.GetParent().Name;
                         if (contactedObj.Name == GetObjectMap.Map)
@@ -51,7 +51,7 @@ namespace RabiLaby.src.Object
                 {
                     if (contactedObj.Name == GetObjectMap.GetObjectName(i))
                     {
-                        if (contactedObj.Name == GetObjectMap.Character)
+                        if (contactedObj.Name == GetObjectMap.Player)
                             FloorTypes.Add(contactedObj.GetParent().Name);
                         if (contactedObj.Name == GetObjectMap.Map)
                             FloorTypes.Add(contactedObj.Name);

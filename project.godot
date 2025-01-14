@@ -26,6 +26,10 @@ window/stretch/scale=4.0
 
 project/assembly_name="Rabi Laby"
 
+[global_group]
+
+Mountable=""
+
 [input]
 
 move_right={

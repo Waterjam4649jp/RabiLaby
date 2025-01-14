@@ -1,26 +1,28 @@
 using Godot;
 using RabiLaby.src;
 using RabiLaby.src.Object;
-using RabiLaby.src.Player;
+using RabiLaby.src.Object.Player;
 using System;
 
 public partial class LilyController : CharacterBody2D
 {
-    [Export] private float Gravity = 8.5f; // main()
-    [Export] private int WalkSpeed = 60; // HorizontalMove()
-    [Export] private int JumpForce = 190; // Jump()
+    [Export] private float Gravity = 8.5f;
+    [Export] private int WalkSpeed = 60;
+    [Export] private int JumpForce = 190;
     [Export] private int BounceForce = 300;
     [Export] private int TerminalVelocity = 250;
 
     private CharacterBody2D _body;
     private AnimatedSprite2D _animation;
     private AliceController _alice;
-    private float AnimationSpeed = 1.0f; // AnimationReady()
+    private float AnimationSpeed = 1.0f;
     private bool isLilyControlled = false;
     private (string pre, string post) floorType = ("None", "None");
     private bool isSpecificAnimationIsPlaying = false;
 
     private Vector2 velocity;
+
+    private string[] CollisionLayersAndMaps = new string[2] { "Map", "Player" };
 
     public override void _Ready()
     {
@@ -32,9 +34,13 @@ public partial class LilyController : CharacterBody2D
         _animation.AnimationFinished += () => isSpecificAnimationIsPlaying = false;
 
         PlatformOnLeave = PlatformOnLeaveEnum.DoNothing;
+
+        base._Ready();
+        AddToGroup("Mountable");
     }
 
-    public override void _PhysicsProcess(double delta) // as main
+
+    public override void _PhysicsProcess(double delta)
     {
         if (Input.IsActionJustPressed("change_character"))
             isLilyControlled = !isLilyControlled;
@@ -46,6 +52,7 @@ public partial class LilyController : CharacterBody2D
                                         TerminalVelocity,
                                         IsOnFloor(),
                                         isLilyControlled);
+
         MoveAndSlide();
 
         if (isSpecificAnimationIsPlaying)
@@ -56,7 +63,10 @@ public partial class LilyController : CharacterBody2D
                                   Velocity,
                                   IsOnFloor(),
                                   isLilyControlled);
-        
+
+        floorType = (floorType.post, CollisionStates.GetFloorType(_body));
+        CollisionController.MountOnAliceOrHat(floorType);
+        GD.Print(CollisionSelecter.ToDigit(CollisionLayersAndMaps));
     }
     private void OnAliceSteppedOnLily()
     {
@@ -84,4 +94,5 @@ public partial class LilyController : CharacterBody2D
             }
         }
     }
+
 }

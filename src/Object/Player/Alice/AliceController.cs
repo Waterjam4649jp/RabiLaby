@@ -1,22 +1,23 @@
 using Godot;
+using RabiLaby.src;
 using RabiLaby.src.Object;
-using RabiLaby.src.Player;
+using RabiLaby.src.Object.Player;
 using System;
 
 public partial class AliceController : CharacterBody2D
 {
-    private float Gravity = 7.5f; // main()
-    private int WalkSpeed = 60; // HorizontalMove()
-    private int JumpForce = 135; // Jump()
+    private float Gravity = 7.5f;
+    private int WalkSpeed = 60;
+    private int JumpForce = 135;
     private int BounceForce = 195;
     private int TerminalVelocity = 120;
-    private float AnimationSpeed = 1.0f; // AnimationReady()
+    private float AnimationSpeed = 1.0f;
     private bool isControlled = true;
 
     private CharacterBody2D _body;
     private AnimatedSprite2D _animation;
 
-    public (string pre, string post) floorType = ("None", "None"); // used for AnimationController\Lily\Lily.cs
+    public (string pre, string post) floorType = ("None", "None");
     private Vector2 velocity;
 
     [Signal]
@@ -53,6 +54,7 @@ public partial class AliceController : CharacterBody2D
                               isControlled);
 
         floorType = (floorType.post, CollisionStates.GetFloorType(_body));
+        CollisionController.MountOnAliceOrHat(floorType);
     }
 
     private Vector2 InteractionMovement(Vector2 velocity, (string pre, string post) floorType)
